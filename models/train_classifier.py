@@ -30,7 +30,14 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
-    pass
+    text = text.lower()
+    text = re.sub(r"[^a-zA-Z0-9]", " ", text)
+    tokens = word_tokenize(text)
+    tokens = [word for word in tokens if word not in stopwords.words("english")]
+    lemmatizer = WordNetLemmatizer()
+
+    clean_tokens = [lemmatizer.lemmatize(tok) for tok in tokens]
+    return clean_tokens
 
 
 def build_model():
