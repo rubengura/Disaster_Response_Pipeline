@@ -61,7 +61,12 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    pass
+    Y_pred = model.predict(X_test)
+    print(classification_report(Y_test, Y_pred, target_names=category_names))
+    for pos, category in enumerate(category_names):
+        print('------  Category: ', category, ' ------  \n',
+              classification_report(Y_test[:, pos], Y_pred[:, pos]),
+              ' -------------------------------------------- ')
 
 
 def save_model(model, model_filepath):
