@@ -20,7 +20,13 @@ from sklearn.multioutput import MultiOutputClassifier
 from sklearn.metrics import classification_report
 
 def load_data(database_filepath):
-    pass
+    engine = create_engine('sqlite:///' + database_filepath)
+    df = pd.read_sql_table('DisasterMessages', con=engine)
+    X = df.message.values
+    Y = df.iloc[:, 4:].values
+    labels = df.columns[4:]
+
+    return X, Y, labels
 
 
 def tokenize(text):
