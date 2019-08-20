@@ -4,7 +4,21 @@ from itertools import chain
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
-    pass
+    '''Read message data and categories data into DataFrames and concatenates them into a single DataFrame.
+        Returns a list with message_data and categories_data'''
+    messages_df = pd.read_csv(messages_filepath, index_col='id')
+    categories_df = pd.read_csv(categories_filepath, sep=",|;", skiprows=1, header=None)
+
+    # Getting column names by substracting from the first row all the digits
+    # Substract all the digit characters from the categories_df cells
+    nested_list_columns = [['id'], list(categories_df.replace(r'-[0-9]', '', regex=True).iloc[0, :][1:])]
+    categories_df.columns = list(chain.from_iterable(nested_list_columns))
+    categories_df.replace(r'[^0-9]', '', regex=True, inplace=True)
+    categories_df = categories_df.astype(int)
+    categories_df.set_index('id', inplace=True)
+
+    df = pd.concat([messages_df, categories_df], axis=1)
+    return df
 
 
 def clean_data(df):
