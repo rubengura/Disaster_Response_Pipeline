@@ -28,8 +28,9 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
-
-    pass  
+    """Saves the df into a sql database called as the argument database_filename"""
+    engine = create_engine('sqlite:///' + database_filename)
+    df.to_sql('DisasterMessages', engine, index=False, if_exists='replace')
 
 
 def main():
