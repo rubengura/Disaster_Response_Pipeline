@@ -4,8 +4,8 @@ from itertools import chain
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
-    '''Read message data and categories data into DataFrames and concatenates them into a single DataFrame.
-        Returns a list with message_data and categories_data'''
+    """Read message data and categories data into DataFrames and concatenates them into a single DataFrame.
+        Returns a list with message_data and categories_data"""
     messages_df = pd.read_csv(messages_filepath, index_col='id')
     categories_df = pd.read_csv(categories_filepath, sep=",|;", skiprows=1, header=None)
 
@@ -22,11 +22,13 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    """Drop duplicates from the input (DataFrame)"""
     df.drop_duplicates(inplace=True)
     return df
 
 
 def save_data(df, database_filename):
+
     pass  
 
 
